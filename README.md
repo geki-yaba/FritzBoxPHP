@@ -16,3 +16,8 @@ https://fritz.box:49443/tr64desc.xml
 * Online resources:
 
 https://www.symcon.de/forum/threads/25745-FritzBox-mit-SOAP-auslesen-und-steuern
+
+# How To extend
+Use an AJAX framework (xajax or phery) to poll and update website, decorate data with some nice icons and styles.
+
+Would you mind to send me an example based on my CLI example, please? :-)
