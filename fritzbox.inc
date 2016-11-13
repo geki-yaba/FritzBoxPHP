@@ -34,7 +34,7 @@ function getServiceData($base_uri, $desc, $scpd)
 
     if ($xml === false)
     {
-        echo "Not found: ". $desc . PHP_EOL;
+        echo "service data not found: ". $desc . PHP_EOL;
 
         return false;
     }
@@ -62,7 +62,7 @@ function getStateVars($base_uri, $service, $action)
 
     if ($xml === false)
     {
-        echo "Not found: ". $service['SCPDURL'] . PHP_EOL;
+        echo "state variables not found: ". $service['SCPDURL'] . PHP_EOL;
 
         return false;
     }
