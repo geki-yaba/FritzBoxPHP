@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once('./fb_util.inc');
+require_once('./fritzbox.inc');
 
 
 
