@@ -72,7 +72,7 @@ try
     {
         $result = \FritzBox\soapAction($client, $action, new SoapParam($i, 'NewIndex'));
 
-        if ($noOfTelephones === false)
+        if ($result === false)
         {
             throw Exception("soap fault encountered executing ". $action);
         }
