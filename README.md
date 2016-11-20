@@ -17,7 +17,12 @@ https://fritz.box:49443/tr64desc.xml
 
 https://www.symcon.de/forum/threads/25745-FritzBox-mit-SOAP-auslesen-und-steuern
 
-# How To extend
-Use an AJAX framework (xajax or phery) to poll and update website, decorate data with some nice icons and styles.
+# CLI-based example
+Query DECT status once and print on STDOUT.
 
-Would you mind to send me an example based on my CLI example, please? :-)
+# AJAX-based Website example
+Using Phery.js as AJAX framework to poll and update DECT status and present on website.
+
+There are some FIXMEs in 'www/index.php' that you may help me to solve, please.
+
+If you see any chance to improve the code, like keeping the SOAP client session in PHP session so that no new connection needs to be established on every poll, let me know!
