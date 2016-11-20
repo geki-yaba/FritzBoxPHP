@@ -42,7 +42,7 @@ function getServiceData($base_uri, $desc, $scpd)
     $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
     $xmlService = $xml->xpath("//fb:service[fb:SCPDURL='/". $scpd ."']");
 
-    if ($xmlService === false)
+    if (count($xmlService) == 0)
     {
         return false;
     }

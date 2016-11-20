@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once('./fritzbox.inc');
+require_once('fritzbox.inc');
 
 
 
@@ -34,7 +34,7 @@ try
 
     if ($service === false)
     {
-        throw Exception("no service found in ". $scpd);
+        throw new Exception("no service found in ". $scpd);
     }
 
     #print_r($service);
@@ -48,7 +48,7 @@ try
 
     #if ($stateVars === false)
     #{
-    #    throw Exception("no state variables belonging to $action");
+    #    throw new Exception("no state variables belonging to $action");
     #}
 
     #print_r($stateVars);
@@ -61,7 +61,7 @@ try
 
     if ($noOfTelephones === false)
     {
-        throw Exception("soap fault encountered executing ". $action);
+        throw new Exception("soap fault encountered executing ". $action);
     }
 
     echo "no of dect telephones: ". $noOfTelephones . PHP_EOL;
@@ -74,7 +74,7 @@ try
 
         if ($result === false)
         {
-            throw Exception("soap fault encountered executing ". $action);
+            throw new Exception("soap fault encountered executing ". $action);
         }
 
 	$line = ($result['NewActive'] != 0) ? "busy" : "open";
