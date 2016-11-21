@@ -106,6 +106,8 @@ function soapClient($service)
 
     $service['stream_context'] = stream_context_create($ctx);
 
+    $service['compression'] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5;
+
     $service['trace'] = false;
     $service['exceptions'] = true;
 
