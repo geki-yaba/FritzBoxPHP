@@ -23,6 +23,10 @@ Query DECT status once and print on STDOUT.
 # AJAX-based Website example
 Using Phery.js as AJAX framework to poll and update DECT status and present on website.
 
-There are some FIXMEs in 'www/index.php' that you may help me to solve, please.
+* There are some FIXMEs in 'www/index.php' that you may help me to solve, please.
 
-If you see any chance to improve the code, like keeping the SOAP client session in PHP session so that no new connection needs to be established on every poll, let me know!
+* If you want to keep SOAP session data during PHP session, see:
+
+http://stackoverflow.com/questions/13388613
+
+* If you see any chance to improve the code, let me know!
