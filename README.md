@@ -25,6 +25,10 @@ Using Phery.js as AJAX framework to poll and update DECT status and present on w
 
 * There are some FIXMEs in 'www/index.php' that you may help me to solve, please.
 
+* FIXME: proper unloading of page -> server-side session cleanup, anyone?
+
+https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#Adapting_Sync_XHR_usecases_to_the_Beacon_API
+
 * If you want to keep SOAP session data during PHP session, see:
 
 http://stackoverflow.com/questions/13388613

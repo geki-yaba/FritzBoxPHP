@@ -107,7 +107,12 @@ $phery->process();
                     // FIXME: synchronous ajax call, please? yes, proper server-side cleanup!
                     //          although this basic example would not need it,
                     //          a full-featured session will have server-side code, which needs cleanup
-                    //phery.remote('fritzbox_dect_uninit', null, {'temp': true}, true);
+                    //
+                    // SOLVE ME!
+                    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#Adapting_Sync_XHR_usecases_to_the_Beacon_API
+
+                    $.ajaxSetup({async: false});
+                    phery.remote('fritzbox_dect_uninit', null, {'temp': true}, true);
 
                     // chrome 55 feature - wait
                     //demo();
