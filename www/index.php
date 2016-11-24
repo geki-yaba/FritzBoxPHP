@@ -5,7 +5,6 @@ declare(strict_types=1);
 #
 #   1) trace in exception: remove server path
 #   2) fix exception handling: phery:done should not be executed
-#   3) beforeunload: proper server-side session cleanup
 
 require_once('Phery.php');
 require_once('fritzboxdect.php');
@@ -14,7 +13,8 @@ $phery = Phery::instance(array('exceptions' => true));
 
 $phery->set(
     array(
-        'fritzbox_dect_uninit' => '\FritzBoxDect\uninit',
+        # uninit is executed via sendBeacon('logout.php')
+        #'fritzbox_dect_uninit' => '\FritzBoxDect\uninit',
         'fritzbox_dect_init' => '\FritzBoxDect\init',
         'fritzbox_dect_list' => '\FritzBoxDect\list_phones'
     )
@@ -104,20 +104,14 @@ $phery->process();
                     dect_list_timer = null;
                     dect_list_call = null;
 
-                    // FIXME: synchronous ajax call, please? yes, proper server-side cleanup!
-                    //          although this basic example would not need it,
-                    //          a full-featured session will have server-side code, which needs cleanup
-                    //
-                    // SOLVE ME!
-                    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#Adapting_Sync_XHR_usecases_to_the_Beacon_API
-
-                    $.ajaxSetup({async: false});
-                    phery.remote('fritzbox_dect_uninit', null, {'temp': true}, true);
+                    // proper server-side cleanup
+                    if (false === navigator.sendBeacon('<?php echo rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . DIRECTORY_SEPARATOR .'logout.php'; ?>'))
+                    {
+                        console.log('could not send logout beacon to server!');
+                    }
 
                     // chrome 55 feature - wait
                     //demo();
-
-                    return 'unloaded successfully!';
                 }
         );
     </script>
