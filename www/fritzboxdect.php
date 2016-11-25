@@ -26,7 +26,7 @@ class Params
     static $scpd = "x_dectSCPD.xml";
 };
 
-function uninit($data, $params, $phery)
+function uninit()
 {
     session_start();
 
@@ -41,8 +41,6 @@ function uninit($data, $params, $phery)
     }
 
     session_write_close();
-
-    return \PheryResponse::factory();
 }
 
 function init($data, $params, $phery)
