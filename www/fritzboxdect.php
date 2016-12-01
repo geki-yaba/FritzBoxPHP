@@ -66,7 +66,7 @@ function init($data, $params, $phery)
     }
     catch(Exception $e)
     {
-        $err = nl2br($e->__toString());
+        $err = nl2br(str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->__toString()));
     }
 
     session_write_close();
@@ -145,7 +145,7 @@ function list_phones($data, $params, $phery)
         }
         catch(Exception $e)
         {
-            $err = nl2br($e->__toString());
+            $err = nl2br(str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->__toString()));
         }
 
         $_SESSION['busy'] = false;

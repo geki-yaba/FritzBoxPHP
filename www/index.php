@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 # FIXME
 #
-#   1) trace in exception: remove server path
-#   2) fix exception handling: phery:done should not be executed
+#   1) fix exception handling: phery:done should not be executed
 
 require_once('Phery.php');
 require_once('fritzboxdect.php');
