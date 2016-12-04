@@ -114,22 +114,8 @@ function soapClient($service)
     return new \SoapClient(null, $service);
 }
 
-function soapAction($client, $action, $param = null)
+function soapCall($client, string &$action, ...$arguments)
 {
-    if ($param === null)
-    {
-        $status = $client->$action();
-    }
-    else
-    {
-        $status = $client->$action($param);
-    }
-
-    if (is_soap_fault($status))
-    {
-       return false;
-    }
-
-    return $status;
+    return $client->__soapCall($action, $arguments);
 }
 ?>

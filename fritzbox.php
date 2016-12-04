@@ -57,12 +57,7 @@ try
     $client = \FritzBox\soapClient($service);
 
     # execute action published by service
-    $noOfTelephones = (int)\FritzBox\soapAction($client, $action);
-
-    if ($noOfTelephones === false)
-    {
-        throw new Exception("soap fault encountered executing ". $action);
-    }
+    $noOfTelephones = (int)\FritzBox\soapCall($client, $action);
 
     echo "no of dect telephones: ". $noOfTelephones . PHP_EOL;
 
@@ -70,14 +65,10 @@ try
 
     for($i = 0; $i < $noOfTelephones; $i++)
     {
-        $result = \FritzBox\soapAction($client, $action, new SoapParam($i, 'NewIndex'));
+        $result = \FritzBox\soapCall($client, $action,
+                        new SoapParam((int)$i, 'NewIndex'));
 
-        if ($result === false)
-        {
-            throw new Exception("soap fault encountered executing ". $action);
-        }
-
-	$line = ($result['NewActive'] != 0) ? "busy" : "open";
+        $line = ($result['NewActive'] != 0) ? "busy" : "open";
 
         echo "name(". $result['NewName'] .") id(". $result['NewID'] .") line(". $line .")" . PHP_EOL;
     }

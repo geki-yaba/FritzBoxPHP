@@ -115,12 +115,7 @@ function list_phones($data, $params, $phery)
             $action = "GetNumberOfDectEntries";
 
             # execute action published by service
-            $noOfTelephones = (int)\FritzBox\soapAction($client, $action);
-
-            if ($noOfTelephones === false)
-            {
-                throw new Exception("soap fault encountered executing ". $action);
-            }
+            $noOfTelephones = (int)\FritzBox\soapCall($client, $action);
 
             $body = "no of dect telephones: ". $noOfTelephones ."<br /><br />";
 
@@ -128,13 +123,8 @@ function list_phones($data, $params, $phery)
 
             for($i = 0; $i < $noOfTelephones; $i++)
             {
-                $result = \FritzBox\soapAction($client, $action,
-                                new \SoapParam($i, 'NewIndex'));
-
-                if ($result === false)
-                {
-                    throw new Exception("soap fault encountered executing ". $action);
-                }
+                $result = \FritzBox\soapCall($client, $action,
+                                new \SoapParam((int)$i, 'NewIndex'));
 
             	$line = ($result['NewActive'] != 0) ? "busy" : "open";
 
