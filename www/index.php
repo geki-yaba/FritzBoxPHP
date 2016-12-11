@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 # FIXME
 #
-#   1) fix exception handling: phery:done should not be executed
+#   1) PheryResponse: return success or error versus 'phery:done' and 'phery:exception'
 
 require_once('Phery.php');
 require_once('fritzboxdect.php');
@@ -27,7 +27,7 @@ $phery->process();
 
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
     <title>Fritz!Box DECT</title>
     <script src="jquery-3.1.1.min.js"></script>
     <!-- debug -->
@@ -51,19 +51,19 @@ $phery->process();
                     .on({
                         'phery:done': function()
                         {
+                            console.log('dect service initialization responded');
+
                             dect_list_call = phery.remote('fritzbox_dect_list', null, null, false)
                                 .on({
                                     'phery:exception': function(event, exception)
                                     {
                                         dect_list_timer.stop();
 
-                                        // FIXME: exception called twice?!
-                                        //alert('dect service polling aborted!');
+                                        console.log('dect service polling aborted!');
                                     }
                                 });
 
                             dect_list_timer = phery.timer(dect_list_call);
-
                             dect_list_timer.start(5000);
                         }
                     })
@@ -72,8 +72,7 @@ $phery->process();
                         {
                             dect_list_timer.stop();
 
-                            // FIXME: exception called twice?!
-                            //alert('dect service initialization failed!');
+                            console.log('dect service initialization failed!');
                         }
                     })
                     .phery('remote');
