@@ -37,19 +37,6 @@ $phery->process();
         var dect_list_call = null;
         var dect_list_timer = null;
 
-        // chrome 55 feature
-        //function sleep(ms)
-        //{
-        //    return new Promise(resolve => setTimeout(resolve, ms));
-        //}
-
-        //async function demo()
-        //{
-        //    console.log('Taking a break...');
-        //    await sleep(10000);
-        //    console.log('Ten seconds later');
-        //}
-
         // debug
         //phery.config({'debug.enable': true, 'debug.display.config': true});
 
@@ -93,7 +80,7 @@ $phery->process();
             }
         );
 
-        // synchronous unloading of page
+        // asynchronous unloading of page
         $(window).on(
             'beforeunload',
                 function()
@@ -108,9 +95,6 @@ $phery->process();
                     {
                         console.log('could not send logout beacon to server!');
                     }
-
-                    // chrome 55 feature - wait
-                    //demo();
                 }
         );
     </script>
