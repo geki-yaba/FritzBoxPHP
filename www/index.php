@@ -84,7 +84,10 @@ $phery->process();
             'beforeunload',
                 function()
                 {
-                    dect_list_timer.stop();
+                    if (dect_list_timer != null)
+                    {
+                        dect_list_timer.stop();
+                    }
 
                     dect_list_timer = null;
                     dect_list_call = null;
