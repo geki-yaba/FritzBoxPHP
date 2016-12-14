@@ -49,31 +49,53 @@ $phery->process();
                 // 4th param: have temporary DOM element to bind events:   false
                 phery.remote('fritzbox_dect_init', null, {'temp': true}, false)
                     .on({
-                        'phery:done': function()
+                        'phery:done': function(event, data, text, xhr)
                         {
                             console.log('dect service initialization responded');
 
-                            dect_list_call = phery.remote('fritzbox_dect_list', null, null, false)
-                                .on({
-                                    'phery:exception': function(event, exception)
-                                    {
-                                        dect_list_timer.stop();
+                            var header = xhr.getResponseHeader('X-FritzBoxPHP-Exception');
 
-                                        console.log('dect service polling aborted!');
-                                    }
-                                });
+                            if (header != null)
+                            {
+                                console.log('exception: %o', header);
+                            }
+                            else
+                            {
+                                dect_list_call = phery.remote('fritzbox_dect_list', null, null, false)
+                                    .on({
+                                        'phery:done': function(event, data, text, xhr)
+                                        {
+                                            var header = xhr.getResponseHeader('X-FritzBoxPHP-Exception');
 
-                            dect_list_timer = phery.timer(dect_list_call);
-                            dect_list_timer.start(5000);
+                                            if (header != null)
+                                            {
+                                                console.log('exception: %o', header);
+
+                                                dect_list_timer.stop();
+                                            }
+                                        }
+                                    //},
+                                    //{
+                                    //    'phery:exception': function(event, exception)
+                                    //    {
+                                    //        dect_list_timer.stop();
+
+                                    //        console.log('dect service polling aborted!');
+                                    //    }
+                                    });
+
+                                dect_list_timer = phery.timer(dect_list_call);
+                                dect_list_timer.start(5000);
+                            }
                         }
-                    })
-                    .on({
-                        'phery:exception': function(event, exception)
-                        {
-                            dect_list_timer.stop();
+                    //},
+                    //{
+                    //    'phery:exception': function(event, exception)
+                    //    {
+                    //        dect_list_timer.stop();
 
-                            console.log('dect service initialization failed!');
-                        }
+                    //        console.log('dect service initialization failed!');
+                    //    }
                     })
                     .phery('remote');
             }

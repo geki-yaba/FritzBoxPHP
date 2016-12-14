@@ -30,10 +30,7 @@ function uninit()
 {
     session_start();
 
-    while($_SESSION['busy'] !== false)
-    {
-        sleep(1);
-    }
+    # TODO wait until pending AJAX calls finished
 
     foreach($_SESSION as $key => $val)
     {
@@ -51,8 +48,6 @@ function init($data, $params, $phery)
 
     try
     {
-        $_SESSION['busy'] = false;
-
         # receive service description
         $_SESSION['dect_service'] =
             \FritzBox\getServiceData(Params::$base_uri, Params::$desc, Params::$scpd);
@@ -77,7 +72,8 @@ function init($data, $params, $phery)
     {
         $response->html($err)->show('fast');
 
-        $response->exception($err);
+        header('X-FritzBoxPHP-Exception: initialization');
+        #$response->exception($err);
     }
     else
     {
@@ -96,11 +92,9 @@ function list_phones($data, $params, $phery)
     $err = '';
     $body = '';
 
-    if (isset($_SESSION['dect_service']))
+    try
     {
-        $_SESSION['busy'] = true;
-
-        try
+        if (isset($_SESSION['dect_service']))
         {
             $service = $_SESSION['dect_service'];
 
@@ -133,16 +127,14 @@ function list_phones($data, $params, $phery)
                     .") line(". $line .")<br />";
             }
         }
-        catch(Exception $e)
+        else
         {
-            $err = nl2br(str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->__toString()));
+            throw new Exception('no dect service available!');
         }
-
-        $_SESSION['busy'] = false;
     }
-    else
+    catch(Exception $e)
     {
-        $err = 'no dect service available!';
+        $err = nl2br(str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->__toString()));
     }
 
     session_write_close();
@@ -153,7 +145,8 @@ function list_phones($data, $params, $phery)
     {
         $response->html($err)->show('fast');
 
-        $response->exception($err);
+        header('X-FritzBoxPHP-Exception: list phones');
+        #$response->exception($err);
     }
     else
     {
