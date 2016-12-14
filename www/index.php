@@ -1,10 +1,6 @@
 <?php
 declare(strict_types=1);
 
-# FIXME
-#
-#   1) PheryResponse: return success or error versus 'phery:done' and 'phery:exception'
-
 require_once('Phery.php');
 require_once('fritzboxdect.php');
 
