@@ -122,7 +122,7 @@ function list_phones($data, $params, $phery)
                 $active = $result['NewActive'];
 
                 $body .= '<div class="ui-field-contain">'
-                    .'<label for="dect-phone-'. $id .'">'. $result['NewName'] .' (id: '. $id .')</label>'
+                    .'<label for="dect-phone-checkbox-'. $id .'">'. $result['NewName'] .' (id: '. $id .')</label>'
                     .'<input type="checkbox" data-role="flipswitch" data-mini="true" data-corners="false"'
                     .' name="dect-phone-checkbox-'. $id .'" id="dect-phone-checkbox-'. $id .'"'
                     .' data-on-text="busy" data-off-text="open" data-disabled="true" data-wrapper-class="dect-phone-flipswitch"';

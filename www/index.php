@@ -32,8 +32,8 @@ $phery->process();
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>Fritz!Box DECT</title>
     <!--
-    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css" />
     <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css" />
+    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css" />
     <script src="jquery-3.1.1.min.js"></script>
     <script src="jquery.mobile.custom.min.js"></script>
     -->
