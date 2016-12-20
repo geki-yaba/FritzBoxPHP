@@ -1,6 +1,12 @@
 <?php
 declare(strict_types=1);
 
+
+# FIXME
+#
+# 1. wait for jquery mobile 1.5.0 to reenable jquery-3.1.1
+
+
 require_once('Phery.php');
 require_once('fritzboxdect.php');
 
@@ -23,12 +29,43 @@ $phery->process();
 
 <html>
   <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>Fritz!Box DECT</title>
+    <!--
+    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css" />
+    <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css" />
     <script src="jquery-3.1.1.min.js"></script>
+    <script src="jquery.mobile.custom.min.js"></script>
+    -->
+    <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <!-- debug -->
     <!-- <script src="phery-2.7.4.js"></script> -->
     <script src="phery.min-2.7.4.js"></script>
+    <style id="dect-phone-flipswitch">
+/* Custom indentations are needed because the length of custom labels differs from
+   the length of the standard labels */
+.ui-field-contain > .dect-phone-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on
+{
+    text-indent: -2.8em;
+}
+.ui-field-contain > .dect-phone-flipswitch.ui-flipswitch .ui-flipswitch-off
+{
+    text-indent: 0.2em;
+}
+/* Custom widths are needed because the length of custom labels differs from
+   the length of the standard labels */
+.ui-field-contain > .dect-phone-flipswitch.ui-flipswitch.ui-flipswitch-active
+{
+    padding-left: 5.0em;
+    width: 1.875em;
+}
+.ui-field-contain > .dect-phone-flipswitch.ui-flipswitch
+{
+    width: 6.875em;
+}
+    </style>
     <script type="text/javascript">
         var dect_list_call = null;
         var dect_list_timer = null;
@@ -120,6 +157,16 @@ $phery->process();
     </script>
   </head>
   <body>
-    <div id='dect_list' name='dect_list'></div>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>FritzBoxPHP DECT</h1>
+      </div>
+      <div data-role="main" class="ui-content" name="dect_list" id="dect_list">
+        <h1>Loading ...</h1>
+      </div>
+      <div data-role="footer">
+        <h1>FritzBoxPHP DECT</h1>
+      </div>
+    </div>
   </body>
 </html>

@@ -90,7 +90,7 @@ function list_phones($data, $params, $phery)
     session_start();
 
     $err = '';
-    $body = '';
+    $body = '<form>';
 
     try
     {
@@ -111,8 +111,6 @@ function list_phones($data, $params, $phery)
             # execute action published by service
             $noOfTelephones = (int)\FritzBox\soapCall($client, $action);
 
-            $body = "no of dect telephones: ". $noOfTelephones ."<br /><br />";
-
             $action = "GetGenericDectEntry";
 
             for($i = 0; $i < $noOfTelephones; $i++)
@@ -120,11 +118,21 @@ function list_phones($data, $params, $phery)
                 $result = \FritzBox\soapCall($client, $action,
                                 new \SoapParam((int)$i, 'NewIndex'));
 
-            	$line = ($result['NewActive'] != 0) ? "busy" : "open";
+                $id = $result['NewID'];
+                $active = $result['NewActive'];
 
-                $body .= "name(". $result['NewName']
-                    .") id(". $result['NewID']
-                    .") line(". $line .")<br />";
+                $body .= '<div class="ui-field-contain">'
+                    .'<label for="dect-phone-'. $id .'">'. $result['NewName'] .' (id: '. $id .')</label>'
+                    .'<input type="checkbox" data-role="flipswitch" data-mini="true" data-corners="false"'
+                    .' name="dect-phone-checkbox-'. $id .'" id="dect-phone-checkbox-'. $id .'"'
+                    .' data-on-text="busy" data-off-text="open" data-disabled="true" data-wrapper-class="dect-phone-flipswitch"';
+
+                if ($active != 0)
+                {
+                    $body .= ' checked';
+                }
+
+                $body .= ' /></div>';
             }
         }
         else
@@ -136,6 +144,8 @@ function list_phones($data, $params, $phery)
     {
         $err = nl2br(str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->__toString()));
     }
+
+    $body .= '</form>';
 
     session_write_close();
 
@@ -150,7 +160,7 @@ function list_phones($data, $params, $phery)
     }
     else
     {
-        $response->html($body)->show('fast');
+        $response->html($body)->enhanceWithin();
     }
 
     return $response;
