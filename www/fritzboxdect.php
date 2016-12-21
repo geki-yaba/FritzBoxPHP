@@ -122,22 +122,18 @@ function list_phones($data, $params, $phery)
                 $active = $result['NewActive'];
                 $line = ($active != 0) ? "busy" : "open";
 
-                #$body .= '<div class="ui-field-contain">'
-                #    .'<label for="dect-phone-checkbox-'. $id .'">'. $result['NewName'] .' (id: '. $id .')</label>'
-                #    .'<input type="checkbox" data-role="flipswitch" data-mini="true" data-corners="false"'
-                #    .' name="dect-phone-checkbox-'. $id .'" id="dect-phone-checkbox-'. $id .'"'
-                #    .' data-on-text="busy" data-off-text="open" data-disabled="true" data-wrapper-class="dect-phone-flipswitch"';
-                $body .= '<div class="ui-field-contain"><fieldset data-role="controlgroup" data-mini="true">'
+                $body .= '<div class="ui-field-contain">'
                     .'<label for="dect-phone-checkbox-'. $id .'">'. $result['NewName'] .' (id: '. $id .')</label>'
-                    .'<input type="checkbox" name="dect-phone-checkbox-'. $id .'" id="dect-phone-checkbox-'. $id .'"';
+                    .'<input type="checkbox" name="dect-phone-checkbox-'. $id .'" id="dect-phone-checkbox-'. $id .'"'
+                    .' data-role="flipswitch" data-mini="true" data-corners="false" data-disabled="true"'
+                    .' data-on-text="busy" data-off-text="open" data-wrapper-class="dect-phone-flipswitch"';
 
                 if ($active != 0)
                 {
                     $body .= ' checked="checked"';
                 }
 
-                #$body .= ' /></div>';
-                $body .= ' /></fieldset></div>';
+                $body .= ' /></div>';
             }
         }
         else

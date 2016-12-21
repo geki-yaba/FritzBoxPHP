@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
-# FIXME
-#
-# 1. wait for jquery mobile 1.5.0 to reenable jquery-3.1.1
-
-
 require_once('Phery.php');
 require_once('fritzboxdect.php');
 
@@ -32,6 +26,7 @@ $phery->process();
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>Fritz!Box DECT</title>
     <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css" />
+    <link rel="stylesheet" href="jquery.mobile.forms.fieldcontain.css" />
     <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css" />
     <script src="jquery-3.1.1.min.js"></script>
     <script src="jquery.mobile.custom.min.js"></script>
