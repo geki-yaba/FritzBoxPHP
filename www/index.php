@@ -157,7 +157,7 @@ $phery->process();
         FritzBoxPHP DECT
       </div>
       <div data-role="main" class="ui-content" name="dect_list" id="dect_list">
-        Loading ...
+        loading...
       </div>
       <div data-role="footer">
         FritzBoxPHP DECT
