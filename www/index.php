@@ -154,13 +154,13 @@ $phery->process();
   <body>
     <div data-role="page">
       <div data-role="header">
-        FritzBoxPHP DECT
+        <h1>FritzBoxPHP DECT</h1>
       </div>
       <div data-role="main" class="ui-content" name="dect_list" id="dect_list">
-        loading...
+        <h1>Loading ...</h1>
       </div>
       <div data-role="footer">
-        FritzBoxPHP DECT
+        <h1>FritzBoxPHP DECT</h1>
       </div>
     </div>
   </body>
