@@ -133,7 +133,7 @@ function list_phones($data, $params, $phery)
                     $body .= ' checked="checked"';
                 }
 
-                $body .= ' /></div>';
+                $body .= '></div>';
             }
         }
         else
