@@ -20,15 +20,13 @@ $base_uri = "https://fritz.box:49443";
 $desc = "tr64desc.xml";
 
 # function signatures, variables and its data types
-$scpd = "x_dectSCPD.xml";
+$scpd_dect = "x_dectSCPD.xml";
+$scpd_ddns = "x_remoteSCPD.xml";
 
-# function to execute
-$action = "GetNumberOfDectEntries";
-
-
-
-try
+function fbSoapClient(string &$scpd)
 {
+    global $base_uri, $desc, $user, $pass;
+
     # receive service description
     $service = \FritzBox\getServiceData($base_uri, $desc, $scpd);
 
@@ -54,7 +52,13 @@ try
     #print_r($stateVars);
 
     # create soap client
-    $client = \FritzBox\soapClient($service);
+    return \FritzBox\soapClient($service);
+}
+
+function fbDectTelephones(&$client)
+{
+    # function to execute
+    $action = "GetNumberOfDectEntries";
 
     # execute action published by service
     $noOfTelephones = (int)\FritzBox\soapCall($client, $action);
@@ -65,13 +69,60 @@ try
 
     for($i = 0; $i < $noOfTelephones; $i++)
     {
-        $result = \FritzBox\soapCall($client, $action,
-                        new SoapParam((int)$i, 'NewIndex'));
+        $params = array('NewIndex' => (int)$i);
+
+        $result = \FritzBox\soapCall($client, $action, $params);
 
         $line = ($result['NewActive'] != 0) ? "busy" : "open";
 
         echo "name(". $result['NewName'] .") id(". $result['NewID'] .") line(". $line .")" . PHP_EOL;
     }
+}
+
+function fbDDNSConfigGet(&$client)
+{
+    # function to execute
+    $action = "GetDDNSProviders";
+
+    # execute action published by service
+    $listOfProviders = \FritzBox\soapCall($client, $action);
+    print_r($listOfProviders);
+
+    $action = "GetDDNSInfo";
+
+    $infoDDNS = \FritzBox\soapCall($client, $action);
+    print_r($infoDDNS);
+}
+
+function fbDDNSConfigSet(&$client)
+{
+    # function to execute
+    $action = "SetDDNSConfig";
+
+    $params = array(
+        'NewEnabled' => (int)1,
+        'NewProviderName' => 'Benutzerdefiniert',
+        'NewUpdateURL' =>
+            'https://carol.selfhost.de/nic/update?myip=<ipaddr>&textmodi=1&http_status=1',
+            #.' https://carol.selfhost.de/nic/update?myip=<ip6addr>&textmodi=1&http_status=1',
+        'NewServerIPv4' => 'carol.selfhost.de',
+        'NewServerIPv6' => 'carol.selfhost.de',
+        'NewDomain' => '<domain>',
+        'NewUsername' => '<user>',
+        'NewPassword' => '<pass>',
+        'NewMode' => 'ddns_v4'); # ddns_both
+
+    return \FritzBox\soapCall($client, $action, $params);
+}
+
+try
+{
+    $client = fbSoapClient($scpd_dect);
+    fbDectTelephones($client);
+
+    $client = fbSoapClient($scpd_ddns);
+    #fbDDNSConfigSet($client);
+    fbDDNSConfigGet($client);
 }
 catch(Exception $e)
 {
