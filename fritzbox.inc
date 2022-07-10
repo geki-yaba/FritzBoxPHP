@@ -10,6 +10,7 @@ namespace FritzBox;
 #    {
 #        var_dump($request, $location, $action, $version, $one_way);
 #        $result = parent::__doRequest($request, $location, $action, $version, $one_way);
+#        print_r($result);
 #        return $result;
 #    }
 #}
@@ -55,7 +56,7 @@ function getServiceData($base_uri, $desc, $scpd)
     return $service;
 }
 
-function getStateVars($base_uri, $service, $action)
+function getStateVars($base_uri, array &$service, string &$action)
 {
     $content = getHTTPSContent($base_uri .'/'. $service['SCPDURL']);
     $xml = @simplexml_load_string($content);
@@ -90,7 +91,7 @@ function getStateVars($base_uri, $service, $action)
     return $stateVariables;
 }
 
-function soapClient($service)
+function soapClient(array &$service)
 {
     $ctx = array(
         "ssl" => array(
@@ -114,8 +115,20 @@ function soapClient($service)
     return new \SoapClient(null, $service);
 }
 
-function soapCall($client, string &$action, ...$arguments)
+function soapCall(&$client, string &$action, array &$arguments = array())
 {
-    return $client->__soapCall($action, $arguments);
+    if (count($arguments) == 0)
+    {
+        return $client->__soapCall($action, $arguments);
+    }
+
+    $parameters = array();
+
+    foreach($arguments as $key => $value)
+    {
+        $parameters[] = new \SoapParam($value, $key);
+    }
+
+    return $client->__soapCall($action, $parameters);
 }
 ?>
