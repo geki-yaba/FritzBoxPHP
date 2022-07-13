@@ -17,16 +17,18 @@ $pass = "passw";
 $base_uri = "https://fritz.box:49443";
 
 # description of services
-$desc = "tr64desc.xml";
+$desc_igd = "igddesc.xml";
+$desc_tr64 = "tr64desc.xml";
 
 # function signatures, variables and its data types
+$scpd_conn = "igdconnSCPD.xml";
 $scpd_dect = "x_dectSCPD.xml";
 $scpd_ddns = "x_remoteSCPD.xml";
 $scpd_info = "deviceinfoSCPD.xml";
 
-function fbSoapClient(string &$scpd)
+function fbSoapClient(string &$desc, string &$scpd)
 {
-    global $base_uri, $desc, $user, $pass;
+    global $base_uri, $user, $pass;
 
     # receive service description
     $service = \FritzBox\getServiceData($base_uri, $desc, $scpd);
@@ -43,6 +45,7 @@ function fbSoapClient(string &$scpd)
     $service['password'] = $pass;
 
     # receive variables and its data types belonging to action
+    #$action = "GetInfo";
     #$stateVars = \FritzBox\getStateVars($base_uri, $service, $action);
 
     #if ($stateVars === false)
@@ -80,7 +83,7 @@ function fbDectTelephones(&$client)
     }
 }
 
-function fbDDNSConfigGet(&$client)
+function fbDDNSProviders(&$client)
 {
     # function to execute
     $action = "GetDDNSProviders";
@@ -88,7 +91,11 @@ function fbDDNSConfigGet(&$client)
     # execute action published by service
     $listOfProviders = \FritzBox\soapCall($client, $action);
     print_r($listOfProviders);
+}
 
+function fbDDNSConfigGet(&$client)
+{
+    # function to execute
     $action = "GetDDNSInfo";
 
     $infoDDNS = \FritzBox\soapCall($client, $action);
@@ -125,16 +132,34 @@ function fbDeviceLogGet(&$client)
     print_r($devLogs);
 }
 
+function fbWanIpAddress(&$client)
+{
+    # function to execute
+    $action = "GetExternalIPAddress";
+
+    # execute action published by service
+    $ipAdress = \FritzBox\soapCall($client, $action);
+    print_r($ipAdress . PHP_EOL);
+
+    $action = "X_AVM_DE_GetExternalIPv6Address";
+
+    $ipAdress = \FritzBox\soapCall($client, $action);
+    print_r($ipAdress["NewExternalIPv6Address"] . PHP_EOL);
+}
+
 try
 {
-    $client = fbSoapClient($scpd_dect);
-    fbDectTelephones($client);
+    #$client = fbSoapClient($desc_tr64, $scpd_dect);
+    #fbDectTelephones($client);
 
-    $client = fbSoapClient($scpd_ddns);
+    $client = fbSoapClient($desc_tr64, $scpd_ddns);
     #fbDDNSConfigSet($client);
     fbDDNSConfigGet($client);
 
-    #$client = fbSoapClient($scpd_info);
+    $client = fbSoapClient($desc_igd, $scpd_conn);
+    fbWanIpAddress($client);
+
+    #$client = fbSoapClient($desc_tr64, $scpd_info);
     #fbDeviceLogGet($client);
 }
 catch(Exception $e)

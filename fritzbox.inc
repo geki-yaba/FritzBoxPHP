@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace FritzBox;
 
 # debug
-#class FBSoapClient extends \SoapClient
-#{
-#    public function __doRequest($request, $location, $action, $version, $one_way = NULL)
-#    {
-#        var_dump($request, $location, $action, $version, $one_way);
-#        $result = parent::__doRequest($request, $location, $action, $version, $one_way);
-#        print_r($result);
-#        return $result;
-#    }
-#}
+class FBSoapClient extends \SoapClient
+{
+    public function __doRequest($request, $location, $action, $version, $one_way = NULL)
+    {
+        var_dump($request, $location, $action, $version, $one_way);
+        $result = parent::__doRequest($request, $location, $action, $version, $one_way);
+        print_r($result);
+        return $result;
+    }
+}
 
 function getHTTPSContent($url)
 {
