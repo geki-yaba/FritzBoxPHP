@@ -22,6 +22,7 @@ $desc = "tr64desc.xml";
 # function signatures, variables and its data types
 $scpd_dect = "x_dectSCPD.xml";
 $scpd_ddns = "x_remoteSCPD.xml";
+$scpd_info = "deviceinfoSCPD.xml";
 
 function fbSoapClient(string &$scpd)
 {
@@ -102,17 +103,26 @@ function fbDDNSConfigSet(&$client)
     $params = array(
         'NewEnabled' => (int)1,
         'NewProviderName' => 'Benutzerdefiniert',
-        'NewUpdateURL' =>
-            'https://carol.selfhost.de/nic/update?myip=<ipaddr>&textmodi=1&http_status=1',
-            #.' https://carol.selfhost.de/nic/update?myip=<ip6addr>&textmodi=1&http_status=1',
+        'NewUpdateURL' => '/nic/update?myip=<ipaddr>'
+			.'&host=<domain>&textmodi=1&http_status=1',
         'NewServerIPv4' => 'carol.selfhost.de',
         'NewServerIPv6' => 'carol.selfhost.de',
         'NewDomain' => '<domain>',
         'NewUsername' => '<user>',
         'NewPassword' => '<pass>',
-        'NewMode' => 'ddns_v4'); # ddns_both
+        'NewMode' => 'ddns_both');
 
     return \FritzBox\soapCall($client, $action, $params);
+}
+
+function fbDeviceLogGet(&$client)
+{
+    # function to execute
+    $action = "GetDeviceLog";
+
+    # execute action published by service
+    $devLogs = \FritzBox\soapCall($client, $action);
+    print_r($devLogs);
 }
 
 try
@@ -123,6 +133,9 @@ try
     $client = fbSoapClient($scpd_ddns);
     #fbDDNSConfigSet($client);
     fbDDNSConfigGet($client);
+
+    #$client = fbSoapClient($scpd_info);
+    #fbDeviceLogGet($client);
 }
 catch(Exception $e)
 {
