@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 require_once('fritzbox.inc');
 
+class Login
+{
+    # user and password
+    # - user is optional for default setup; simply set any name
+    # - otherwise use FritzBox-User with read/write access
+    public static $user = "admin";
+    public static $pass = "passw";
 
-
-# user and password
-# - user is optional for default setup; simply set any name
-# - otherwise use FritzBox-User with read/write access
-$user = "admin";
-$pass = "passw";
-
-
-
-# fritz!box soap server
-$base_uri = "https://fritz.box:49443";
+    # fritz!box soap server
+    public static $base_uri = "https://fritz.box:49443";
+};
 
 # description of services
 $desc_igd = "igddesc.xml";
@@ -28,10 +27,8 @@ $scpd_info = "deviceinfoSCPD.xml";
 
 function fbSoapClient(string &$desc, string &$scpd)
 {
-    global $base_uri, $user, $pass;
-
     # receive service description
-    $service = \FritzBox\getServiceData($base_uri, $desc, $scpd);
+    $service = \FritzBox\getServiceData(Login::$base_uri, $desc, $scpd);
 
     if ($service === false)
     {
@@ -41,8 +38,8 @@ function fbSoapClient(string &$desc, string &$scpd)
     #print_r($service);
 
     # set user and password
-    $service['login'] = $user;
-    $service['password'] = $pass;
+    $service['login'] = Login::$user;
+    $service['password'] = Login::$pass;
 
     # receive variables and its data types belonging to action
     #$action = "GetInfo";
